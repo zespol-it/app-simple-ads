@@ -55,8 +55,8 @@ Aplikacja do zarządzania ogłoszeniami (dodawanie, przeglądanie, walidacja, up
 1. **Wymagania:** Docker, Docker Compose
 2. **Klonowanie repo:**
    ```bash
-   git clone ...
-   cd mobilem.nl
+   git clone https://github.com/zespol-it/app-simple-ads
+   cd app-simple-ads
    ```
 3. **Start środowiska:**
    ```bash
