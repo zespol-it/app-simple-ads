@@ -1,0 +1,30 @@
+# Laravel
+/vendor/
+/node_modules/
+/public/storage
+/storage/*.key
+/storage/app/public/*
+!storage/app/public/.gitignore
+/storage/framework/
+/storage/logs/
+.env
+.env.*
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+.DS_Store
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Docker
+*.pid
+*.seed
+*.log
+/docker-compose.override.yml
+
+# System
+Thumbs.db
+.DS_Store 

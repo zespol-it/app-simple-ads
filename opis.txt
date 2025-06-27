@@ -1,0 +1,9 @@
+Technologie:
+- Docker
+- Laravel (v12 - lasted) + MySQL + Blade
+
+Napisać aplikację umożliwiającą dodawanie prostych ogłoszeń
+- Ogłoszenie powinno zawierać nazwę, opis, cenę a także możliwość dodania maksymalnie 5 zdjęć
+- Można zrobić prosty formularz, listę ogłoszeń i podgląd ogłoszenia w maksymalnie prosty sposób.
+- Wszystkie pola muszą być walidowane. Sprawdzane będą zasady OOP, SOLID i DRY
+- testy
