@@ -1,196 +1,195 @@
-# Ogłoszenia – Laravel 12 + Docker
+# Aplikacja Ogłoszeń – Laravel + Vue + Docker
+
+Aplikacja do zarządzania ogłoszeniami z możliwością dodawania, przeglądania i zarządzania ogłoszeniami. Frontend w Vue.js 3 + Vite, backend w Laravel, wszystko uruchomione w Docker.
 
 ## Opis projektu
-Aplikacja do zarządzania ogłoszeniami (dodawanie, przeglądanie, walidacja, upload zdjęć) napisana w Laravel 12, uruchamiana w środowisku Docker. UI oparty o Blade i Tailwind CSS. Testy jednostkowe i feature, seedery, bezpieczeństwo (XSS, SQLi, CSRF), gotowa do rozwoju i wdrożenia.
 
----
+Napisać aplikację umożliwiającą dodawanie prostych ogłoszeń:
+- Ogłoszenie powinno zawierać nazwę, opis, cenę a także możliwość dodania maksymalnie 5 zdjęć
+- Można zrobić prosty formularz, listę ogłoszeń i podgląd ogłoszenia w maksymalnie prosty sposób
+- Wszystkie pola muszą być walidowane. Sprawdzane będą zasady OOP, SOLID i DRY
+- Testy jednostkowe i feature
 
-## Stos technologiczny
-- **PHP 8.x** (Docker)
-- **Laravel 12**
-- **MySQL** (Docker)
-- **Nginx** (Docker)
-- **Blade** (szablony)
-- **Tailwind CSS** (CDN)
-- **Alpine.js** (popupy)
-- **PHPUnit** (testy)
-- **Docker Compose**
+## Technologie
 
----
+### Frontend (Vue.js)
+- **Vue 3** z Composition API
+- **Vite** jako bundler
+- **Tailwind CSS 3.x** do stylizacji
+- **Vue Router** do nawigacji
+- **Axios** do komunikacji z API
 
-## Funkcje
-- Dodawanie ogłoszeń (nazwa, opis, cena, max 5 zdjęć)
-- Walidacja po stronie backendu (Laravel FormRequest) i frontend (JS)
-- Przeglądanie ogłoszeń w formie dashboardu (miniaturki, karty)
-- Pojedyncze ogłoszenie z galerią zdjęć
-- Paginacja
-- Alerty (popupy) po dodaniu ogłoszenia
-- Testy unit i feature (PHPUnit)
-- Seedery z przykładowymi ogłoszeniami i obrazkami
-- Zabezpieczenia: XSS, SQL Injection, CSRF
+### Backend (Laravel)
+- **Laravel 12** jako API i Web
+- **MySQL** jako baza danych
+- **Eloquent ORM**
+- **Walidacja** (FormRequest)
+- **Testy** (PHPUnit)
 
----
+### DevOps
+- **Docker** + **Docker Compose**
+- **Nginx** jako reverse proxy
+- **PHP-FPM**
 
-## Struktura katalogów
-```
-├── src/
-│   ├── app/                # logika aplikacji (kontrolery, modele, middleware)
-│   ├── database/           # migracje, seedery, fabryki
-│   ├── public/             # publiczne pliki, index.php
-│   ├── resources/views/    # widoki Blade
-│   ├── routes/             # definicje tras
-│   ├── storage/            # uploady, cache, logi
-│   └── tests/              # testy jednostkowe i feature
-├── docker-compose.yml      # konfiguracja Docker
-├── Dockerfile              # obraz PHP
-├── nginx/                  # konfiguracja nginx
-├── .env.example            # przykładowa konfiguracja środowiska
-├── .gitignore              # wykluczenia dla gita
-└── README.md               # ten plik
-```
+## Szybki start
 
----
-
-## Uruchomienie projektu
-1. **Wymagania:** Docker, Docker Compose
-2. **Klonowanie repo:**
-   ```bash
-   git clone ...
-   cd mobilem.nl
-   ```
-3. **Start środowiska:**
-   ```bash
-   docker compose up --build
-   ```
-4. **Instalacja zależności i migracje:**
-   ```bash
-   docker compose exec app bash
-   cd src
-   composer install
-   cp .env.example .env
-   php artisan key:generate
-   php artisan migrate --seed
-   exit
-   ```
-5. **Aplikacja dostępna pod:**
-   - http://localhost:8080
-
----
-
-## Testy
+1. **Sklonuj repozytorium**
 ```bash
-docker compose exec app bash -c "cd src && php artisan test"
+git clone <repository-url>
+cd mobilem.nl
 ```
 
----
+2. **Uruchom Docker Compose**
+```bash
+docker-compose up -d --build
+```
+
+3. **Dostęp do aplikacji**
+- **Frontend (Vue)**: http://localhost:5173
+- **Backend (Laravel)**: http://localhost:8080
+- **API**: http://localhost:8080/api/ads
+
+## Funkcjonalności
+
+### System ogłoszeń (Full-stack)
+- ✅ Lista ogłoszeń (API + Vue)
+- ✅ Dodawanie ogłoszeń
+- ✅ Upload zdjęć (max 5)
+- ✅ Walidacja formularzy
+- ✅ Zabezpieczenia (XSS, SQL Injection, CSRF)
+- ✅ Responsywny design
+
+### Dodatkowo: Todo List (Frontend)
+- ✅ Dodawanie zadań
+- ✅ Oznaczanie jako ukończone
+- ✅ Usuwanie zadań
+- ✅ Lokalne przechowywanie (localStorage)
+- ✅ Statystyki zadań
+
+## Struktura projektu
+
+```
+.
+├── front/                    # Vue.js 3 + Vite
+│   ├── src/
+│   │   ├── components/      # Komponenty Vue
+│   │   │   └── TodoList.vue # Komponent Todo
+│   │   ├── views/           # Widoki
+│   │   │   ├── AdsList.vue  # Lista ogłoszeń
+│   │   │   ├── AddAd.vue    # Dodawanie ogłoszeń
+│   │   │   └── AdView.vue   # Widok ogłoszenia
+│   │   ├── api.js           # Konfiguracja API
+│   │   ├── router.js        # Vue Router
+│   │   └── App.vue          # Główny komponent
+│   ├── Dockerfile           # Docker dla Vue
+│   └── package.json
+│
+├── src/                     # Laravel 12
+│   ├── app/
+│   │   ├── Http/Controllers/
+│   │   │   └── AdController.php
+│   │   ├── Models/
+│   │   │   └── Ad.php
+│   │   └── Http/Requests/
+│   │       └── StoreAdRequest.php
+│   ├── routes/
+│   │   ├── web.php          # Web routes
+│   │   └── api.php          # API routes
+│   └── resources/views/     # Blade templates
+│
+├── nginx/
+│   └── default.conf         # Nginx config
+├── Dockerfile               # Docker dla Laravel
+└── docker-compose.yml       # Orchestracja kontenerów
+```
+
+## Kontenery Docker
+
+| Serwis | Port | Opis |
+|--------|------|------|
+| `vue-front` | 5173 | Vue.js development server |
+| `nginx` | 8080 | Nginx + Laravel |
+| `app` | 9000 | PHP-FPM (Laravel) |
+| `mysql` | 3306 | MySQL database |
+
+## API Endpoints
+
+### Ogłoszenia
+- `GET /api/ads` - Lista ogłoszeń (JSON)
+- `POST /api/ads` - Dodanie ogłoszenia
+- `GET /api/ads/{id}` - Szczegóły ogłoszenia
+
+### Web (Blade views)
+- `GET /` - Przekierowanie do listy ogłoszeń
+- `GET /ads` - Lista ogłoszeń (HTML)
+- `GET /ads/create` - Formularz dodawania
+- `POST /ads` - Dodanie ogłoszenia
+- `GET /ads/{id}` - Widok ogłoszenia
+
+## Dostęp do kontenerów
+
+```bash
+# Frontend Vue (npm commands)
+docker-compose exec front sh
+
+# Backend Laravel (artisan commands)
+docker-compose exec app bash
+
+# MySQL
+docker-compose exec mysql mysql -u laravel -p laravel
+```
+
+## Przydatne komendy
+
+```bash
+# Rebuild i restart
+docker-compose down
+docker-compose up --build -d
+
+# Sprawdź logi
+docker-compose logs front
+docker-compose logs app
+
+# Migracje Laravel
+docker-compose exec app php artisan migrate
+
+# Testy Laravel
+docker-compose exec app php artisan test
+```
+
+## Rozwój
+
+### Frontend (Vue)
+- Zmiany w `front/src/` są automatycznie przeładowywane (hot reload)
+- Vite development server na porcie 5173
+- API calls kierowane na http://localhost:8080
+
+### Backend (Laravel)
+- Zmiany w `src/` wymagają restartu kontenera app
+- API dostępne na http://localhost:8080/api/
+- Panel Laravel na http://localhost:8080
 
 ## Bezpieczeństwo
-- **XSS:** Dane wyświetlane przez `e()` w widokach
-- **SQL Injection:** Eloquent, testy na ID
-- **CSRF:** Middleware, tokeny, wyjątki dla API
-- **Walidacja:** Backend (FormRequest), frontend (JS)
 
----
+- CORS skonfigurowany dla komunikacji frontend-backend
+- CSRF protection dla formularzy web
+- Walidacja wszystkich danych wejściowych
+- Zabezpieczenia przed XSS i SQL Injection
 
-## Seedery
-- Domyślne ogłoszenia z miniaturkami (logo_small.png, logo.png) – patrz `DemoAdsSeeder`
+## Testy
 
----
-## Diagram architektury
+```bash
+# Backend Laravel
+docker-compose exec app php artisan test
 
-```mermaid
-flowchart TD
-  Browser["Przeglądarka (User)"]
-  Nginx["Nginx (Docker)"]
-  PHP["PHP-FPM (Laravel)"]
-  MySQL["MySQL (Docker)"]
-  Storage["Storage (uploads)"]
-  Browser <--> Nginx
-  Nginx <--> PHP
-  PHP <--> MySQL
-  PHP <--> Storage
+# Frontend Vue (jeśli skonfigurowane)
+docker-compose exec front npm run test
 ```
 
-## Diagram UML (klasa Ad)
-```mermaid
-classDiagram
-  class Ad {
-    +int id
-    +string name
-    +string description
-    +float price
-    +array images
-    +created_at
-    +updated_at
-  }
-```
+## Zasady programowania
 
-## Diagram ERD (tabela ads)
-```mermaid
-erDiagram
-  Ad {
-    id INT PK
-    name VARCHAR
-    description TEXT
-    price DECIMAL
-    images JSON
-    created_at DATETIME
-    updated_at DATETIME
-  }
-```
-
----
-
-## Diagram UseCase
-
-```mermaid
-flowchart TD
-  Uzytkownik((Użytkownik))
-  Przeglada["Przegląda listę ogłoszeń"]
-  Dodaje["Dodaje ogłoszenie"]
-  Oglada["Ogląda szczegóły ogłoszenia"]
-  Uzytkownik --> Przeglada
-  Uzytkownik --> Dodaje
-  Uzytkownik --> Oglada
-  Dodaje --> Przeglada
-  Przeglada --> Oglada
-```
-
-
-
-
-## Endpointy HTTP
-
-| Metoda | Endpoint         | Nazwa         | Opis                                                                 |
-|--------|------------------|---------------|----------------------------------------------------------------------|
-| GET    | /                | -             | Przekierowanie na listę ogłoszeń (`/ads`)                            |
-| GET    | /ads             | ads.index     | Wyświetla listę ogłoszeń (dashboard, paginacja, miniaturki)          |
-| GET    | /ads/create      | ads.create    | Formularz dodawania nowego ogłoszenia                                |
-| POST   | /ads             | ads.store     | Zapisuje nowe ogłoszenie (walidacja, upload zdjęć)                   |
-| GET    | /ads/{ad}        | ads.show      | Szczegóły ogłoszenia (opis, galeria zdjęć, cena)                     |
-| GET    | /ads/{ad}/edit   | ads.edit      | (NIEZAIMPLEMENTOWANE) Formularz edycji ogłoszenia                    |
-| PUT    | /ads/{ad}        | ads.update    | (NIEZAIMPLEMENTOWANE) Aktualizacja ogłoszenia                        |
-| DELETE | /ads/{ad}        | ads.destroy   | (NIEZAIMPLEMENTOWANE) Usuwanie ogłoszenia                            |
-
-
-## Podsumowanie kompletności projektu
-Projekt zawiera wszystkie kluczowe elementy:
-- Model: `Ad.php` (oraz `User.php`)
-- Kontroler: `AdController.php`
-- Middleware: tylko `VerifyCsrfToken.php` (zgodnie z dobrymi praktykami)
-- Migracja: `2025_06_27_072549_create_ads_table.php` (i inne systemowe)
-- Seedery: `DemoAdsSeeder.php`, `DatabaseSeeder.php`
-- Layout: `app.blade.php`
-- Widoki ogłoszeń: `index.blade.php`, `show.blade.php`, `create.blade.php`
-- Pliki publiczne: `index.php`, `.htaccess`, favicon, robots.txt
-- Pliki konfiguracyjne: `.env.example`, `.gitignore`, `README.md`, `composer.json`, `docker-compose.yml`, `Dockerfile`, `nginx/`
-- Testy: katalog `tests/`
-
----
-
----
-
-## Autor
-Grzegorz Skotniczny
-
----
+- **OOP** - Wykorzystanie klas, interfejsów, dziedziczenia
+- **SOLID** - Przestrzeganie zasad Single Responsibility, Open/Closed, etc.
+- **DRY** - Don't Repeat Yourself, reużywalność kodu
+- **Walidacja** - Wszystkie pola formularzy są walidowane
+- **Testy** - Unit i Feature testy dla backendu

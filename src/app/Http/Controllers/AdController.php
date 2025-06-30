@@ -12,9 +12,24 @@ class AdController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $ads = Ad::latest()->paginate(10);
+        
+        // Jeśli request oczekuje JSON (API), zwróć JSON
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json([
+                'data' => $ads->items(),
+                'pagination' => [
+                    'current_page' => $ads->currentPage(),
+                    'last_page' => $ads->lastPage(),
+                    'per_page' => $ads->perPage(),
+                    'total' => $ads->total()
+                ]
+            ]);
+        }
+        
+        // W przeciwnym razie zwróć widok
         return view('ads.index', compact('ads'));
     }
 
@@ -40,14 +55,28 @@ class AdController extends Controller
         }
         $data['images'] = $images;
         $ad = Ad::create($data);
+        
+        // Jeśli request oczekuje JSON (API), zwróć JSON
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json([
+                'message' => 'Ogłoszenie dodane pomyślnie!',
+                'data' => $ad
+            ], 201);
+        }
+        
         return redirect()->route('ads.show', $ad)->with('success', 'Ogłoszenie dodane!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Ad $ad)
+    public function show(Request $request, Ad $ad)
     {
+        // Jeśli request oczekuje JSON (API), zwróć JSON
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json(['data' => $ad]);
+        }
+        
         return view('ads.show', compact('ad'));
     }
 
